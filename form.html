@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+</head>
+<body>
+<h2>Add an Event</h2>
+<form id="eventForm">
+    <input type="text" id="name" placeholder="Event Name" required><br>
+    <input type="date" id="date" required><br>
+    <input type="text" id="image" placeholder="Image URL" required><br>
+    <textarea id="caption" placeholder="Event Caption" required></textarea><br>
+    <button type="submit">Submit</button>
+</form>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_MESSAGING_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById("eventForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const date = document.getElementById("date").value;
+        const image = document.getElementById("image").value;
+        const caption = document.getElementById("caption").value;
+
+        await addDoc(collection(db, "events"), { name, date, image, caption });
+        alert("Event added successfully!");
+    });
+</script>
+</body>
+</html>
