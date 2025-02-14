@@ -28,6 +28,8 @@ A beautiful day surrounded by friends and family.
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    console.log(firebase.SDK_VERSION);
+
     async function loadEvents() {
         const querySnapshot = await getDocs(collection(db, "events"));
         let eventsHTML = "";
