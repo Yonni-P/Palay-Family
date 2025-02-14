@@ -1,7 +1,7 @@
 <script type="module">
-    import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCw9yMDHMnUXsrB6WW2rumAI-qFZINJCtU",
@@ -12,10 +12,11 @@
         appId: "1:237207501947:web:617fa5617b1834eadaf6de"
     };
 
-    // Reuse Firebase App if already initialized
-    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
+
+    console.log("Firebase app and services initialized");
 
     document.getElementById("eventForm").addEventListener("submit", async (e) => {
         e.preventDefault();
