@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Event</title>
-</head>
-<body>
-<h2>Add an Event</h2>
-<form id="eventForm">
-    <label for="name">Event Name:</label>
-    <input type="text" id="name" required><br>
-
-    <label for="date">Date:</label>
-    <input type="date" id="date"><br> <!-- Not required anymore -->
-
-    <label for="image">Upload Image:</label>
-    <input type="file" id="image"><br> <!-- File input -->
-
-    <label for="caption">Caption:</label>
-    <textarea id="caption"></textarea><br> <!-- Not required anymore -->
-
-    <button type="submit">Submit</button>
-</form>
-
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
@@ -33,12 +7,15 @@
         apiKey: "AIzaSyCw9yMDHMnUXsrB6WW2rumAI-qFZINJCtU",
         authDomain: "palay-family.firebaseapp.com",
         projectId: "palay-family",
-        storageBucket: "palay-family.firebasestorage.app",
+        storageBucket: "palay-family.appspot.com",
         messagingSenderId: "237207501947",
         appId: "1:237207501947:web:617fa5617b1834eadaf6de"
     };
 
+    // Initialize Firebase App
     const app = initializeApp(firebaseConfig);
+
+    // Initialize Firestore & Storage using the `app` instance
     const db = getFirestore(app);
     const storage = getStorage(app);
 
@@ -82,5 +59,3 @@
     });
 
 </script>
-</body>
-</html>
