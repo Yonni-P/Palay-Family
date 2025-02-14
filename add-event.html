@@ -1,22 +1,5 @@
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-    import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCw9yMDHMnUXsrB6WW2rumAI-qFZINJCtU",
-        authDomain: "palay-family.firebaseapp.com",
-        projectId: "palay-family",
-        storageBucket: "palay-family.firebasestorage.app",
-        messagingSenderId: "237207501947",
-        appId: "1:237207501947:web:617fa5617b1834eadaf6de"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    console.log("Firebase app and services initialized");
+    import { db, storage } from "./firebase-init.js";  // Import initialized Firebase
 
     document.getElementById("eventForm").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -51,5 +34,4 @@
             submitButton.disabled = false;
         }
     });
-
 </script>
