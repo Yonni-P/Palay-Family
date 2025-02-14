@@ -51,4 +51,8 @@ A beautiful day surrounded by friends and family.
 
 <div id="timeline">Loading events...</div>
 
+<a href="add-event.html">
+    <button style="font-size: 16px; padding: 10px; margin: 10px;">Add Event</button>
+</a>
+
 
