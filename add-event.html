@@ -1,5 +1,5 @@
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
@@ -12,10 +12,8 @@
         appId: "1:237207501947:web:617fa5617b1834eadaf6de"
     };
 
-    // Initialize Firebase App
-    const app = initializeApp(firebaseConfig);
-
-    // Initialize Firestore & Storage using the `app` instance
+    // Reuse Firebase App if already initialized
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
 
@@ -27,28 +25,23 @@
 
         try {
             const name = document.getElementById("name").value;
-            const date = document.getElementById("date").value || ""; // Default to empty if not provided
+            const date = document.getElementById("date").value || "";
             const caption = document.getElementById("caption").value || "";
             const imageFile = document.getElementById("image").files[0];
 
-            let imageUrl = ""; // Default to empty if no image
+            let imageUrl = "";
 
             if (imageFile) {
-                // Upload image to Firebase Storage
                 const imageRef = ref(storage, `event-images/${Date.now()}-${imageFile.name}`);
                 await uploadBytes(imageRef, imageFile);
-
-                // Get the image URL
                 imageUrl = await getDownloadURL(imageRef);
             }
 
-            // Store event details in Firestore
             await addDoc(collection(db, "events"), { name, date, image: imageUrl, caption });
 
             alert("Event added successfully!");
             e.target.reset();
 
-            // Redirect back to home page after submission
             window.location.href = "index.html";
         } catch (error) {
             console.error("Error adding event: ", error);
