@@ -8,15 +8,25 @@
 <body>
 <h2>Add an Event</h2>
 <form id="eventForm">
-    <input type="text" id="name" placeholder="Event Name" required><br>
-    <input type="date" id="date" required><br>
-    <input type="text" id="image" placeholder="Image URL" required><br>
-    <textarea id="caption" placeholder="Event Caption" required></textarea><br>
+    <label for="name">Event Name:</label>
+    <input type="text" id="name" required><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date"><br> <!-- Not required anymore -->
+
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image"><br> <!-- File input -->
+
+    <label for="caption">Caption:</label>
+    <textarea id="caption"></textarea><br> <!-- Not required anymore -->
+
     <button type="submit">Submit</button>
 </form>
 
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-storage.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -30,6 +40,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const storage = getStorage();
 
     document.getElementById("eventForm").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -39,17 +50,23 @@
 
         try {
             const name = document.getElementById("name").value;
-            const date = document.getElementById("date").value;
-            const image = document.getElementById("image").value;
-            const caption = document.getElementById("caption").value;
+            const date = document.getElementById("date").value || ""; // Default to empty if not provided
+            const caption = document.getElementById("caption").value || "";
+            const imageFile = document.getElementById("image").files[0];
 
-            if (!name || !date || !image || !caption) {
-                alert("Please fill in all fields.");
-                submitButton.disabled = false;
-                return;
+            let imageUrl = ""; // Default to empty if no image
+
+            if (imageFile) {
+                // Upload image to Firebase Storage
+                const imageRef = ref(storage, `event-images/${Date.now()}-${imageFile.name}`);
+                await uploadBytes(imageRef, imageFile);
+
+                // Get the image URL
+                imageUrl = await getDownloadURL(imageRef);
             }
 
-            await addDoc(collection(db, "events"), { name, date, image, caption });
+            // Store event details in Firestore
+            await addDoc(collection(db, "events"), { name, date, image: imageUrl, caption });
 
             alert("Event added successfully!");
             e.target.reset();
