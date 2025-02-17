@@ -1,39 +1,30 @@
-<script type="module">
-    import { app, db, storage } from "./firebase-init.js";  // Import initialized Firebase
-    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
-    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+</head>
+<body>
+<h2>Add an Event</h2>
+<form id="eventForm">
+    <label for="name">Event Name:</label>
+    <input type="text" id="name" required><br>
 
-    document.getElementById("eventForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
+    <label for="date">Date:</label>
+    <input type="date" id="date"><br>
 
-        const submitButton = e.target.querySelector("button");
-        submitButton.disabled = true;
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image"><br>
 
-        try {
-            const name = document.getElementById("name").value;
-            const date = document.getElementById("date").value || "";
-            const caption = document.getElementById("caption").value || "";
-            const imageFile = document.getElementById("image").files[0];
+    <label for="caption">Caption:</label>
+    <textarea id="caption"></textarea><br>
 
-            let imageUrl = "";
+    <button type="submit">Submit</button>
+</form>
 
-            if (imageFile) {
-                const imageRef = ref(storage, `event-images/${Date.now()}-${imageFile.name}`);
-                await uploadBytes(imageRef, imageFile);
-                imageUrl = await getDownloadURL(imageRef);
-            }
-
-            await addDoc(collection(db, "events"), { name, date, image: imageUrl, caption });
-
-            alert("Event added successfully!");
-            e.target.reset();
-
-            window.location.href = "index.html";
-        } catch (error) {
-            console.error("Error adding event: ", error);
-            alert("Failed to add event.");
-        } finally {
-            submitButton.disabled = false;
-        }
-    });
-</script>
+<!-- Firebase Initialization & Logic -->
+<script type="module" src="./firebase-init.js"></script>
+<script type="module" src="./add-event.js"></script>
+</body>
+</html>

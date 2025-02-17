@@ -13,7 +13,8 @@ Let's gooooo! (to the park 🧺😉)
 A beautiful day surrounded by friends and family.
 
 <script type="module">
-    import { db, storage } from "./firebase-init.js";  // Import initialized Firebase
+    import { db, storage } from "./firebase-init.js";
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     async function loadEvents() {
         const querySnapshot = await getDocs(collection(db, "events"));
