@@ -17,4 +17,6 @@ const app = initializeApp(firebaseConfig); // Only initialize once
 const db = getFirestore(app);
 const storage = getStorage(app);  // Initialize storage service
 
-export { db, storage };  // Export to reuse in other files
+console.log("Firebase initialized successfully");
+
+export { app, db, storage };  // Export to reuse in other files

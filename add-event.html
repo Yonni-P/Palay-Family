@@ -1,5 +1,7 @@
 <script type="module">
-    import { db, storage } from "./firebase-init.js";  // Import initialized Firebase
+    import { app, db, storage } from "./firebase-init.js";  // Import initialized Firebase
+    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     document.getElementById("eventForm").addEventListener("submit", async (e) => {
         e.preventDefault();
